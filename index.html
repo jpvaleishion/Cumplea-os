@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para mi Valentina hermosa ❤️</title>
+    <title>Para mi Valentina preciosa ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Segoe+UI&display=swap" rel="stylesheet">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body, html {
-            margin: 0;
-            padding: 0;
             height: 100%;
             font-family: 'Segoe UI', system-ui, sans-serif;
             background: linear-gradient(135deg, #ffebee, #ffcdd2);
@@ -16,93 +16,36 @@
             color: #c2185b;
         }
 
-        #main-content {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: filter 1.2s ease;
-        }
-        #main-content.blurred {
-            filter: blur(8px) brightness(0.8);
-        }
-
-        .container {
-            background: rgba(255, 255, 255, 0.94);
-            padding: 50px 35px;
-            border-radius: 28px;
-            box-shadow: 0 12px 50px rgba(0,0,0,0.12);
-            max-width: 94%;
-            backdrop-filter: blur(10px);
-            text-align: center;
-            z-index: 1;
-        }
-        h1 { font-size: 2.7em; margin: 0 0 28px 0; color: #d81b60; }
-        .big-text { font-size: 2.1em; margin: 12px 0; font-weight: 500; }
-        #timer { font-size: 3.9em; font-weight: bold; margin: 22px 0 32px 0; color: #e91e63; letter-spacing: 1px; }
-        .small-text { font-size: 1.35em; opacity: 0.9; margin-top: 12px; }
-
-        #surprise-box {
-            margin: 28px auto;
-            padding: 32px 38px;
-            width: 85%;
-            max-width: 520px;
-            min-height: 160px;
-            max-height: 280px;
-            background: linear-gradient(135deg, #fff8fa, #ffeef2);
-            border: 3px dashed #ff79a8;
-            border-radius: 26px;
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.38em;
-            font-weight: 600;
-            color: #b71c1c;
-            line-height: 1.65;
-            text-align: center;
-            opacity: 0;
-            transform: scale(0.94);
-            transition: all 1s ease;
-            box-shadow: inset 0 4px 20px rgba(233,30,99,0.12),
-                        0 8px 30px rgba(233,30,99,0.18);
-            word-break: break-word;
-            overflow-wrap: break-word;
-            hyphens: auto;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        #surprise-box.visible { opacity: 1; transform: scale(1); }
-
         #intro-overlay {
             position: fixed;
             inset: 0;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 50;
-            pointer-events: none;
+            z-index: 1000;
             transition: opacity 1s ease;
         }
         #intro-overlay.hidden { opacity: 0; pointer-events: none; }
+
         #intro-card {
             background: rgba(255, 182, 193, 0.94);
             backdrop-filter: blur(14px);
-            border-radius: 32px;
-            padding: 45px 40px;
-            max-width: 92%;
-            width: 440px;
+            border-radius: 28px;
+            padding: 40px 30px;
+            max-width: 90%;
+            width: 420px;
             box-shadow: 0 18px 60px rgba(233, 30, 99, 0.3);
             text-align: center;
             color: #880e4f;
-            pointer-events: auto;
             border: 1px solid rgba(255,255,255,0.5);
         }
-        #intro-title { font-size: 2.5em; margin: 0 0 22px; color: #d81b60; }
-        #intro-text { font-size: 1.28em; line-height: 1.65; margin: 0 0 40px; }
+        #intro-title { font-size: clamp(2.2em, 8vw, 2.6em); margin-bottom: 20px; color: #d81b60; }
+        #intro-text { font-size: clamp(1.1em, 4.5vw, 1.28em); line-height: 1.65; margin-bottom: 35px; }
         #start-btn {
-            padding: 18px 70px;
-            font-size: 1.45em;
+            padding: 16px 70px;
+            font-size: clamp(1.2em, 5vw, 1.45em);
             font-weight: bold;
             background: linear-gradient(135deg, #ff4081, #e91e63);
             color: white;
@@ -110,79 +53,529 @@
             border-radius: 70px;
             cursor: pointer;
             box-shadow: 0 12px 35px rgba(233,30,99,0.5);
-            transition: all 0.45s ease;
+            transition: all 0.4s ease;
         }
         #start-btn:hover {
             transform: translateY(-6px) scale(1.06);
             box-shadow: 0 18px 50px rgba(233,30,99,0.65);
-            background: linear-gradient(135deg, #e91e63, #c2185b);
         }
 
-        .hearts { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
+        #main-content {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px 15px;
+            z-index: 1;
+            overflow-y: auto;
+            transition: filter 1s ease;
+        }
+        #main-content.blurred {
+            filter: blur(8px) brightness(0.8);
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 45px 30px 140px 30px;
+            max-width: 100%;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h1 { font-size: clamp(1.9em, 6.5vw, 2.5em); margin-bottom: 20px; color: #d81b60; }
+        .big-text { font-size: clamp(1.6em, 5.5vw, 2.1em); margin: 12px 0; font-weight: 500; }
+        #timer { font-size: clamp(3em, 11vw, 4em); font-weight: bold; margin: 20px 0 30px; color: #e91e63; letter-spacing: 1px; }
+        .small-text { font-size: clamp(1.1em, 4vw, 1.35em); opacity: 0.9; margin-top: 10px; }
+
+        #surprise-box {
+            margin: 30px auto;
+            padding: 30px 35px;
+            width: 90%;
+            max-width: 480px;
+            min-height: 160px;
+            background: rgba(255, 248, 250, 0.7);
+            border: 3px dashed #ff79a8;
+            border-radius: 26px;
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.25em, 5vw, 1.4em);
+            font-weight: 600;
+            color: #b71c1c;
+            line-height: 1.65;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.94);
+            transition: all 1s ease;
+            box-shadow: inset 0 4px 20px rgba(233,30,99,0.12);
+            word-break: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #surprise-box.visible { opacity: 1; transform: scale(1); }
+
+        #open-gift-btn {
+            margin: 35px auto 0 auto;
+            padding: 18px 70px;
+            font-size: clamp(1.3em, 5.5vw, 1.5em);
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff4081, #e91e63);
+            color: white;
+            border: none;
+            border-radius: 70px;
+            cursor: pointer;
+            box-shadow: 0 12px 35px rgba(233,30,99,0.5);
+            transition: all 0.4s ease;
+            display: none;
+        }
+        #open-gift-btn.visible {
+            display: inline-block;
+        }
+        #open-gift-btn:hover {
+            transform: translateY(-6px) scale(1.06);
+            box-shadow: 0 18px 50px rgba(233,30,99,0.7);
+        }
+
+        #gift-panel {
+            position: fixed;
+            inset: 0;
+            background: #0a0c14;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            z-index: 200;
+            padding: 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+        }
+        #gift-panel.visible {
+            display: flex;
+            opacity: 1;
+        }
+
+        #sunflowerCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 205;
+            pointer-events: none;
+            display: none;
+        }
+
+        #stars-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 206;
+            display: none;
+        }
+
+        #gift-content {
+            position: relative;
+            z-index: 210;
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        #gift-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(3.2em, 11vw, 5.2em);
+            margin-bottom: 30px;
+            text-shadow: 3px 3px 12px rgba(0,0,0,0.4);
+            color: white;
+            display: none;
+        }
+
+        #gift-box-container {
+            cursor: pointer;
+            margin: 0;
+            animation: giftFloat 3s infinite ease-in-out;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #gift-box {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            transform-origin: center;
+            transition: transform 0.3s;
+        }
+        #gift-box-container:hover #gift-box {
+            transform: scale(1.08);
+        }
+
+        #gift-lid {
+            position: absolute;
+            width: 110%;
+            height: 25%;
+            background: linear-gradient(145deg, #ff8a8c, #ff6b81);
+            top: -5px;
+            left: -5%;
+            border-radius: 15px 15px 5px 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        #message-text {
+            position: fixed;
+            top: 15%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(2.5em, 8vw, 4em);
+            color: white;
+            text-shadow: 0 0 20px rgba(255,255,255,0.8);
+            z-index: 207;
+            display: none;
+            padding: 20px;
+            letter-spacing: 4px;
+            animation: glow 2s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px white, 0 0 40px rgba(255,255,255,0.5); }
+            to { text-shadow: 0 0 30px white, 0 0 60px rgba(255,255,255,0.8); }
+        }
+
+        #letter-content {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+            animation: fadeIn 1.5s ease-out;
+            position: relative;
+            z-index: 215;
+            margin: 20px auto;
+            padding-top: 20px;
+        }
+
+        #gift-letter {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.5em, 5.5vw, 2.1em);
+            line-height: 1.8;
+            text-align: left;
+            background: rgba(10, 12, 20, 0.85);
+            backdrop-filter: blur(4px);
+            padding: 35px;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            margin: 0 auto 30px auto;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            max-width: 90%;
+        }
+
+        #close-gift {
+            margin-top: 10px;
+            margin-bottom: 40px;
+            padding: 16px 60px;
+            font-size: 1.5em;
+            background: white;
+            color: #e91e63;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 220;
+            align-self: center;
+        }
+        #close-gift:hover {
+            background: #ffebee;
+            transform: translateY(-5px) scale(1.1);
+        }
+
+        #birthday-message {
+            font-size: 1.2em;
+            margin-top: 15px;
+            color: #d81b60;
+            font-weight: bold;
+        }
+
+        .hearts { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
         .heart {
             position: absolute;
-            font-size: 2.3em;
+            font-size: clamp(1.2em, 3vw, 2.2em);
             color: #ff4081;
-            animation: float linear forwards;
+            user-select: none;
+            pointer-events: none;
+            will-change: transform;
         }
-        @keyframes float {
-            0%   { transform: translateY(110vh) scale(0.6) rotate(0deg); opacity: 0.85; }
-            100% { transform: translateY(-35vh) scale(1.15) rotate(900deg); opacity: 0; }
+
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1001;
+            display: none;
+        }
+        #confetti-canvas.active {
+            display: block;
+        }
+
+        @keyframes giftFloat {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            50% { transform: translate(-50%, -50%) translateY(-15px); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes lidOpen {
+            0% { transform: translateY(0) rotate(0); opacity: 1; }
+            50% { transform: translateY(-30px) rotate(-10deg); opacity: 1; }
+            100% { transform: translateY(-200px) rotate(-20deg); opacity: 0; }
         }
 
         @media (max-width: 520px) {
-            #surprise-box {
-                font-size: 1.22em;
-                padding: 28px 32px;
-                min-height: 150px;
-                max-height: 260px;
-                width: 92%;
+            #surprise-box { font-size: 1.22em; padding: 25px 28px; min-height: 150px; max-height: 240px; width: 94%; }
+            .container { padding: 40px 20px 140px 20px; }
+            h1 { font-size: 2.2em; }
+            #timer { font-size: 3em; }
+            #message-text {
+                top: 12%;
+                font-size: clamp(2em, 6vw, 3em);
             }
-            .container { padding: 40px 25px; }
-            h1 { font-size: 2.3em; }
-            #timer { font-size: 3.2em; }
+            #gift-box {
+                width: 160px;
+                height: 160px;
+            }
         }
     </style>
 </head>
 <body>
-
-    <div id="main-content" class="blurred">
-        <div class="hearts"></div>
-
-        <div class="container">
-            <h1>¡Mi Valentina preciosa! ❤️</h1>
-            <p class="big-text">Quedan</p>
-            <div id="timer">--d --h --m --s</div>
-            <p class="big-text">para tu cumpleaños</p>
-            <p class="small-text">Vuelve ese día a las 9:00 am exacto</p>
-
-            <div id="surprise-box"></div>
-        </div>
-    </div>
-
     <div id="intro-overlay">
         <div id="intro-card">
             <h2 id="intro-title">💕 Para ti, mi amor 💕</h2>
             <p id="intro-text">
                 Valentina... hay una sorpresita especial esperándote.<br><br>
-                Con música romántica muy suave de fondo y todo mi cariño.<br>
-                ¿Lista para abrirla y sentir cuánto te amo?
+                El 19 de diciembre podrás abrir tu regalo 🎁<br>
+                Vuelve ese día desde las 0:00 hasta las 23:59 ❤️
             </p>
-            <button id="start-btn">Abrir sorpresa ✨</button>
+            <button id="start-btn">Entendido ✨</button>
         </div>
     </div>
 
-    <!-- Tus canciones de GitHub -->
+    <div id="main-content" class="blurred">
+        <div class="hearts"></div>
+        <div class="container">
+            <h1>¡Mi Valentina preciosa! ❤️</h1>
+            <p class="big-text">Quedan</p>
+            <div id="timer">--d --h --m --s</div>
+            <p class="big-text">para tu cumpleaños</p>
+            <p class="small-text" id="birthday-message">19 de Diciembre 🎂</p>
+            <div id="surprise-box"></div>
+            <button id="open-gift-btn">Abrir regalo 🎁✨</button>
+        </div>
+    </div>
+
+    <div id="gift-panel">
+        <canvas id="sunflowerCanvas"></canvas>
+        <canvas id="stars-canvas"></canvas>
+        <div id="message-text">✨ Este día será especial para ti ✨</div>
+        
+        <div id="gift-content">
+            <h2 id="gift-title">¡Feliz Cumpleaños, mi princesa! 🎂❤️</h2>
+            
+            <div id="gift-box-container">
+                <div id="gift-box">
+                    <div style="position: absolute; width: 100%; height: 80%; background: linear-gradient(145deg, #ff6b8b, #ff4757); bottom: 0; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.3);">
+                        <div style="position: absolute; width: 100%; height: 25px; background: #fff0d4; top: 50%; transform: translateY(-50%); box-shadow: 0 2px 5px rgba(0,0,0,0.2);"></div>
+                        <div style="position: absolute; width: 25px; height: 100%; background: #fff0d4; left: 50%; transform: translateX(-50%); box-shadow: 2px 0 5px rgba(0,0,0,0.2);"></div>
+                        <div style="position: absolute; width: 40px; height: 40px; background: #ffeaa5; border-radius: 50% 50% 0 50%; top: -20px; left: 50%; transform: translateX(-50%) rotate(-45deg); box-shadow: 0 5px 15px rgba(0,0,0,0.2);"></div>
+                        <div style="position: absolute; width: 40px; height: 40px; background: #ffeaa5; border-radius: 50% 50% 50% 0; top: -20px; left: 50%; transform: translateX(-50%) rotate(45deg); box-shadow: 0 5px 15px rgba(0,0,0,0.2);"></div>
+                    </div>
+                    <div id="gift-lid">
+                        <div style="position: absolute; width: 30px; height: 30px; background: #ffeaa5; border-radius: 50%; top: -10px; left: 50%; transform: translateX(-50%); box-shadow: 0 3px 10px rgba(0,0,0,0.2);"></div>
+                    </div>
+                </div>
+                <p style="font-family: 'Dancing Script'; font-size: 2.2rem; color: white; margin-top: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">✨ ¡Sorpresa! ✨</p>
+            </div>
+
+            <div id="letter-content">
+                <div id="gift-letter">
+                    <p>Mi chiquita,</p>
+                    <p>Hoy es tu día, y mi corazón está latiendo más fuerte que nunca porque es el día de mi princesa. Recuerdo aquel beso después de tanto tiempo separados... cuando tus labios volvieron a los míos, sentí que todo volvía a ser perfecto. Ese momento me hizo darme cuenta de que no hay nadie más para mí en este mundo.</p>
+                    <p>Te amo tal como eres, mi amor. Amo tu forma de ser, tu risa, tu dulzura, tu manera de mirarme... todo. No quiero que cambies nada, porque eres perfecta siendo tú. Quiero que seas así para toda la vida, porque eres mi felicidad completa.</p>
+                    
+                    <div style="display: flex; align-items: center; gap: 25px; margin: 35px 0; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 24px; backdrop-filter: blur(4px);">
+                        <div style="flex: 0 0 120px;">
+                            <img src="https://raw.githubusercontent.com/jpvaleishion/Cumplea-os/refs/heads/main/Imagen/Beso.jpg" 
+                                 alt="Nuestro beso"
+                                 style="width: 120px; height: 120px; object-fit: cover; border-radius: 20px; border: 4px solid white; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+                        </div>
+                        <div style="flex: 1;">
+                            <p style="margin: 0; font-size: 0.95em; line-height: 1.5; color: #fff;">
+                                "Recuerdo aquel beso después de tanto tiempo separados... cuando tus labios volvieron a los míos, sentí que todo volvía a ser perfecto."
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <p>Te extraño muchísimo cada segundo que no estás a mi lado. Quisiera abrazarte todo el día, hacerte reír, mirarte a los ojos y decirte lo mucho que te quiero. No hay lugar donde prefiera estar que contigo, chiquita. ❤️</p>
+                    
+                    <div style="display: flex; align-items: center; gap: 25px; margin: 35px 0; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 24px; backdrop-filter: blur(4px);">
+                        <div style="flex: 1;">
+                            <p style="margin: 0; font-size: 0.95em; line-height: 1.5; color: #fff;">
+                                "Amo tu sonrisa, es mi sonido favorito del mundo. Cada vez que ríes, mi corazón se llena de paz y felicidad. Eres luz donde sea que estés, mi Valentina."
+                            </p>
+                        </div>
+                        <div style="flex: 0 0 120px;">
+                            <img src="https://raw.githubusercontent.com/jpvaleishion/Cumplea-os/refs/heads/main/Imagen/Sonrisa.jpg" 
+                                 alt="Tu sonrisa"
+                                 style="width: 120px; height: 120px; object-fit: cover; border-radius: 20px; border: 4px solid white; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+                        </div>
+                    </div>
+                    
+                    <p>Gracias por existir, gracias por elegirme, gracias por hacerme el hombre más afortunado. Hoy celebro tu cumpleaños y celebro que estás en mi vida.</p>
+                    <p>Te amo 3 millones... y cada día más. ♾️</p>
+                    
+                    <div style="display: flex; align-items: center; gap: 25px; margin: 45px 0 30px; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 24px; border: 2px solid rgba(255,255,255,0.2); backdrop-filter: blur(4px);">
+                        <div style="flex: 0 0 120px;">
+                            <img src="https://raw.githubusercontent.com/jpvaleishion/Cumplea-os/refs/heads/main/Imagen/Corazon.jpg" 
+                                 alt="Nuestro corazón"
+                                 style="width: 120px; height: 120px; object-fit: cover; border-radius: 20px; border: 4px solid white; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+                        </div>
+                        <div style="flex: 1;">
+                            <p style="margin: 0; font-size: 1em; line-height: 1.6; color: #fff; font-weight: 600;">
+                                "Tú tienes mi corazón completo, entero, sin condiciones. No es solo un pedazo, es TODO lo que soy. Y siempre será tuyo."
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <p style="font-size: 1.5em; margin-top: 40px; margin-bottom: 10px; color: #ffebee; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                        🍅 Tu tomatito para siempre,
+                    </p>
+                    <p style="font-size: 2em; font-weight: bold; color: #fff; text-shadow: 3px 3px 6px rgba(0,0,0,0.4); margin-bottom: 20px;">
+                        Jean
+                    </p>
+                </div>
+                <button id="close-gift">Volver</button>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="confetti-canvas"></canvas>
     <audio id="bgMusic" loop></audio>
 
     <script>
+        const CONFIG = {
+            girlName: "Valentina",
+            birthday: new Date(2026, 11, 19, 9, 0, 0),
+            yourName: "Jean"
+        };
+
+        const STORAGE_KEY = 'valentina_timer_state';
+        function saveTimerState() {
+            const state = { lastVisit: Date.now(), targetDate: targetDate };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }
+        function loadTimerState() { localStorage.getItem(STORAGE_KEY); }
+
+        class Confetti {
+            constructor() {
+                this.canvas = document.getElementById('confetti-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.animationFrame = null;
+                this.active = false;
+                window.addEventListener('resize', () => this.resize());
+                this.resize();
+            }
+            resize() { this.canvas.width = window.innerWidth; this.canvas.height = window.innerHeight; }
+            start(duration = 8000) {
+                if (this.active) this.stop();
+                this.active = true;
+                this.canvas.classList.add('active');
+                for (let i = 0; i < 150; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height - this.canvas.height,
+                        size: Math.random() * 8 + 4,
+                        speedY: Math.random() * 5 + 3,
+                        speedX: Math.random() * 2 - 1,
+                        color: `hsl(${Math.random() * 60 + 320}, 80%, 60%)`,
+                        rotation: Math.random() * 360,
+                        rotationSpeed: (Math.random() - 0.5) * 2
+                    });
+                }
+                const animate = () => {
+                    if (!this.active) return;
+                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    let stillAlive = false;
+                    this.particles.forEach(p => {
+                        p.y += p.speedY; p.x += p.speedX; p.rotation += p.rotationSpeed;
+                        if (p.y < this.canvas.height + 50) {
+                            stillAlive = true;
+                            this.ctx.save();
+                            this.ctx.translate(p.x, p.y);
+                            this.ctx.rotate(p.rotation * Math.PI / 180);
+                            this.ctx.fillStyle = p.color;
+                            this.ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                            this.ctx.restore();
+                        }
+                    });
+                    if (stillAlive) this.animationFrame = requestAnimationFrame(animate);
+                    else this.stop();
+                };
+                animate();
+                setTimeout(() => this.stop(), duration);
+            }
+            stop() {
+                this.active = false; this.particles = []; this.canvas.classList.remove('active');
+                if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            }
+        }
+
         const introOverlay = document.getElementById('intro-overlay');
         const mainContent = document.getElementById('main-content');
         const startBtn = document.getElementById('start-btn');
+        const openGiftBtn = document.getElementById('open-gift-btn');
+        const giftPanel = document.getElementById('gift-panel');
+        const closeGift = document.getElementById('close-gift');
         const audio = document.getElementById('bgMusic');
         const surpriseBox = document.getElementById('surprise-box');
+        const birthdayMessage = document.getElementById('birthday-message');
 
-        // Tus canciones reales (raw links)
+        document.querySelector('h1').innerHTML = `¡Mi ${CONFIG.girlName} preciosa! ❤️`;
+        document.getElementById('intro-text').innerHTML = `${CONFIG.girlName}... hay una sorpresita especial esperándote.<br><br>El 19 de diciembre podrás abrir tu regalo 🎁<br>Vuelve ese día desde las 0:00 hasta las 23:59 ❤️`;
+
         const songs = [
             "https://raw.githubusercontent.com/jpvaleishion/Cumplea-os/main/music/Enamorado%20tuyo_spotdown.org.mp3",
             "https://raw.githubusercontent.com/jpvaleishion/Cumplea-os/main/music/From%20the%20Start_spotdown.org.mp3",
@@ -193,148 +586,477 @@
             "https://raw.githubusercontent.com/jpvaleishion/Cumplea-os/main/music/this%20is%20what%20falling%20in%20love%20feels%20like%20-%20Leon%20Leiden%20Remix_spotdown.org.mp3"
         ];
 
-        // Mensajes románticos (mantengo los 60)
         const messages = [
-            "Cada amanecer me recuerda que estamos más cerca... y mi ilusión crece como loco contigo 🔥❤️",
-            "Imagino tu sonrisa ese 19 y se me acelera todo el corazón... no puedo esperar más 🥰✨",
-            "Faltan días, pero cada uno lo vivo soñando con abrazarte hasta que se acabe el tiempo 🤗💕",
+            "Cada amanecer me recuerda que estamos más cerca... y mi ilusión por ti crece como loco 🔥❤️",
+            "Imagino tu sonrisa el 19 de diciembre y se me acelera todo el corazón... 🥰✨",
+            "Faltan días, pero cada uno lo vivo soñando con abrazar a mi Valentina 🤗💕",
             "Ese 19 va a ser nuestro día más mágico... porque tú haces magia solo con existir ⭐💖",
-            "Estoy contando las horas para verte hermosa y decirte lo mucho que te amo en persona 😍👀",
-            "No sabes la emoción que siento sabiendo que pronto podré celebrar tu día mirándote a los ojos 🎂❤️",
-            "Cada día que pasa mi ilusión por verte explota... el 19 va a ser inolvidable 🔥💞",
-            "Sueño despierto con entregarte todo lo que preparé... va a valer cada segundo de espera 🎁✨",
-            "Eres la razón por la que espero con el alma llena de mariposas y sonrisas tontas 🦋😊",
-            "Cuando llegue el 19 quiero que sientas que eres la persona más amada del universo... porque lo eres 🌍👑",
-            "Tu cumpleaños no es solo un día... es cuando celebro que mi vida tiene sentido contigo 🎉💕",
-            "Estoy preparando algo muy especial porque tú mereces sentirte reina ese día y siempre 👸❤️",
-            "Cada mirada al calendario me hace sonreír... un día menos para tenerte en mis brazos 📅😘",
-            "No veo la hora de darte el abrazo más largo y sincero que haya dado en mi vida 🤗💓",
-            "Eres mi ilusión más grande... y ese 19 será la prueba de cuánto te valoro ♾️🌸",
-            "Imagino tu risa cuando veas la sorpresa... esa risa es mi sonido favorito del mundo 😂❤️",
-            "Faltan días para demostrarte que mi amor por ti no tiene fin ni límites ⏳💖",
-            "Ese 19 quiero que sea inolvidable... porque tú eres inolvidable desde el primer día 🌹✨",
-            "Estoy contando estrellas solo para llegar a ese día mágico a tu lado 🌙⭐",
-            "Tu cumpleaños es mi excusa perfecta para decirte mil veces te amo mirándote a los ojos 🗣️💕",
-            "No hay nada que me haga más feliz que saber que pronto estaremos celebrando juntos 🎉🥂",
-            "Cada día sin verte es duro... pero la ilusión del 19 lo hace todo dulce 🍬❤️",
-            "Eres mi motivo para ilusionarme con cada amanecer... el 19 será el más especial 🌅💞",
-            "Quiero que ese día sientas que eres la persona más querida del planeta... porque lo eres 🌍❤️",
-            "Estoy guardando besos, abrazos y palabras solo para dártelos todos el 19 😘🤗",
-            "El tiempo pasa lento cuando te extraño... pero rápido cuando sueño contigo ese día ⏰💭",
-            "Ese día va a ser mágico porque tú haces que todo sea mágico con solo estar cerca 🪄❤️",
-            "No veo la hora de verte con tu sonrisa de cumpleaños... es la más bonita que existe 😁✨",
-            "Cada día que pasa es un paso más cerca de hacerte la mujer más feliz del mundo 🌟👩‍❤️‍💋‍👨",
-            "Te amo tanto que hasta la espera se siente bonita cuando pienso en ti y en el 19 💓📆",
-            "El 19 no es solo tu cumpleaños... es el día en que mi corazón va a explotar de alegría 🎆💖",
-            "Estoy contando regresivamente con mariposas en el estómago por ti 🦋❤️",
-            "Quiero que ese día sientas las mismas mariposas que yo siento pensando en verte 🦋😍",
-            "Eres mi sueño hecho realidad... y el 19 quiero hacerte soñar despierta conmigo 🌙💭",
-            "Cada mensaje que te escribo es un pedacito de mi amor... el 19 será todo junto en persona 📩❤️",
-            "No hay regalo más grande que poder celebrarte y amarte ese día especial 🎁💕",
-            "Estoy preparando mi corazón para darte todo lo que tengo el 19... y más 💗🔥",
-            "Faltan días para verte, pero ya siento tu abrazo en cada pensamiento que tengo 🤗💭",
-            "Eres la razón por la que espero con ansias que llegue el amanecer del 19 🌅❤️",
-            "Ese día quiero verte brillar... porque tú haces que todo brille a tu alrededor ✨👑",
-            "Te extraño tanto que los días se sienten eternos... pero la ilusión los hace volar ⏳😘",
-            "El 19 va a ser nuestro día... aunque sea tu cumpleaños, lo siento mío también 🎂💑",
-            "Quiero que sepas que cada día que pasa te amo más... y ese día explotaré de emoción 💥❤️",
-            "Estás en cada rincón de mi mente... especialmente cuando sueño con tu cumpleaños 🎈💕",
-            "Ese 19 quiero que sientas que eres única... porque para mí lo eres desde el primer día 🌟",
-            "La espera es dulce cuando el premio es verte sonreír y abrazarte ese día 🍭😊",
-            "Estoy guardando sorpresas, palabras y besos... todo para entregártelo el 19 🎁😘",
-            "Cada día sin ti es un recordatorio de cuánto te necesito cerca... pero pronto llega el 19 🕰️❤️",
-            "Eres mi persona favorita para celebrar la vida... y ese día vamos a celebrarla juntos 🎉🥳",
-            "No veo la hora de decirte feliz cumpleaños mientras te miro a los ojos y te beso 👀💋",
-            "El 19 va a ser inolvidable... porque tú haces que todo sea inolvidable conmigo 🌹",
-            "Te amo en presente, en pasado y en futuro... pero ese día especialmente ♾️💖",
-            "Estoy contando los latidos hasta llegar a ti ese 19 de diciembre... late por ti ❤️🫀",
-            "Tu cumpleaños es mi fecha favorita del año... porque es el día de mi persona favorita 🎂👩‍❤️‍💋‍👨",
-            "Quiero que ese día sientas todo el amor que llevo dentro desde que te conocí 💞",
-            "La ilusión de verte ese día me mantiene despierto sonriendo como tonto 😄💕",
-            "Eres mi mejor regalo... y el 19 quiero ser el tuyo también 🎁❤️",
-            "Cada día que pasa es una promesa de que pronto estaremos juntos celebrando tu día 🌈"
+            "🍅 Tu tomatito te espera con los brazos abiertos el 19... no sabes las ganas de abrazarte ❤️",
+            "Eres el amor de mi tomatito corazón 🍅💕"
         ];
 
-        function getRandomMessage() {
-            return messages[Math.floor(Math.random() * messages.length)];
-        }
+        const confetti = new Confetti();
+        const targetDate = new Date(CONFIG.birthday.getFullYear(), CONFIG.birthday.getMonth(), CONFIG.birthday.getDate(), 9, 0, 0).getTime();
 
+        function getRandomMessage() { return messages[Math.floor(Math.random() * messages.length)]; }
         function showRandomMessage() {
-            surpriseBox.style.opacity = 0;
-            surpriseBox.style.transform = 'scale(0.94)';
-            setTimeout(() => {
-                surpriseBox.textContent = getRandomMessage();
-                surpriseBox.style.opacity = 1;
-                surpriseBox.style.transform = 'scale(1)';
-            }, 900);
+            surpriseBox.style.opacity = '0'; surpriseBox.style.transform = 'scale(0.94)';
+            setTimeout(() => { surpriseBox.textContent = getRandomMessage(); surpriseBox.style.opacity = '1'; surpriseBox.style.transform = 'scale(1)'; }, 900);
         }
 
-        // Al abrir la sorpresa
         startBtn.addEventListener('click', () => {
             introOverlay.classList.add('hidden');
             mainContent.classList.remove('blurred');
-
-            // Elige canción al azar
+            window.scrollTo(0, 0);
             const randomSong = songs[Math.floor(Math.random() * songs.length)];
-            audio.src = randomSong;
-
-            // Volumen muy bajo para fondo sutil
-            audio.volume = 0.08; // 8% - prueba y si aún alto, baja a 0.05 o 0.03
-            audio.loop = true;
-
-            // Fade-in suave (empieza en 0 y sube lentamente)
-            audio.currentTime = 0;
-            audio.volume = 0;
-            audio.play().then(() => {
-                let vol = 0;
-                const fadeIn = setInterval(() => {
-                    vol += 0.005;
-                    if (vol >= 0.08) {
-                        audio.volume = 0.08;
-                        clearInterval(fadeIn);
-                    } else {
-                        audio.volume = vol;
-                    }
-                }, 200); // sube cada 200ms
-            }).catch(err => console.log('Música iniciada por clic:', err));
-
-            // Mensaje inicial aleatorio
-            surpriseBox.classList.add('visible');
-            surpriseBox.textContent = getRandomMessage();
-
-            // Cambios automáticos cada 8 segundos
+            audio.src = randomSong; audio.volume = 0.08; audio.loop = true; audio.play().catch(() => {});
+            surpriseBox.classList.add('visible'); surpriseBox.textContent = getRandomMessage();
             setInterval(showRandomMessage, 8000);
         });
 
-        // Temporizador
-        const targetDate = new Date('2026-12-19T09:00:00-05:00').getTime();
+        // ==============================================
+        // CONTROL DE VISIBILIDAD DEL BOTÓN - 19 DICIEMBRE 0:00 A 23:59
+        // ==============================================
+        function checkGiftButtonVisibility() {
+            const now = new Date();
+            const isDecember19 = now.getMonth() === 11 && now.getDate() === 19;
+            
+            if (isDecember19) {
+                openGiftBtn.classList.add('visible');
+            } else {
+                openGiftBtn.classList.remove('visible');
+            }
+        }
+
+        // Verificar cada segundo
+        setInterval(checkGiftButtonVisibility, 1000);
+        // Verificar inmediatamente
+        checkGiftButtonVisibility();
+
+        // ==============================================
+        // GIRASOL ORIGINAL + ESTRELLAS + MENSAJE
+        // ==============================================
+        const canvas = document.getElementById('sunflowerCanvas');
+        const ctx = canvas.getContext('2d');
+        let animationId = null;
+        let fireworks = [];
+        let shootingStars = [];
+        let starsVisible = false;
+        let hasShownCard = false;
+        let messageActive = false;
+
+        const sunflower = {
+            x: 0, y: 0, stemHeight: 150, headSize: 40,
+            petalLength: 25, angle: 0, scale: 0
+        };
+
+        function initSunflower() {
+            sunflower.x = canvas.width / 2;
+            sunflower.y = canvas.height - 100;
+            sunflower.scale = 0;
+        }
+
+        function drawSunflower() {
+            ctx.save();
+            ctx.translate(sunflower.x, sunflower.y);
+            ctx.scale(sunflower.scale, sunflower.scale);
+            ctx.translate(-sunflower.x, -sunflower.y);
+            
+            ctx.beginPath();
+            ctx.moveTo(sunflower.x, sunflower.y);
+            ctx.lineTo(sunflower.x, sunflower.y - sunflower.stemHeight);
+            ctx.strokeStyle = '#4CAF50';
+            ctx.lineWidth = 8;
+            ctx.stroke();
+            
+            ctx.fillStyle = '#66BB6A';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 5;
+            
+            ctx.save();
+            ctx.translate(sunflower.x - 15, sunflower.y - sunflower.stemHeight + 30);
+            ctx.rotate(-0.5);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 20, 10, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+            
+            ctx.save();
+            ctx.translate(sunflower.x + 15, sunflower.y - sunflower.stemHeight + 60);
+            ctx.rotate(0.5);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 20, 10, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+            
+            ctx.shadowBlur = 10;
+            ctx.fillStyle = '#8B4513';
+            ctx.beginPath();
+            ctx.arc(sunflower.x, sunflower.y - sunflower.stemHeight, sunflower.headSize / 2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#5D4037';
+            ctx.shadowBlur = 5;
+            for (let i = 0; i < 20; i++) {
+                const angle = (i / 20) * Math.PI * 2;
+                ctx.beginPath();
+                ctx.arc(sunflower.x + Math.cos(angle) * 8, sunflower.y - sunflower.stemHeight + Math.sin(angle) * 8, 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.fillStyle = '#FFD700';
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = 'rgba(255,215,0,0.5)';
+            
+            for (let i = 0; i < 12; i++) {
+                const petalAngle = (i / 12) * Math.PI * 2 + sunflower.angle;
+                const petalX = sunflower.x + Math.cos(petalAngle) * (sunflower.headSize / 2 + 5);
+                const petalY = sunflower.y - sunflower.stemHeight + Math.sin(petalAngle) * (sunflower.headSize / 2 + 5);
+                
+                ctx.save();
+                ctx.translate(petalX, petalY);
+                ctx.rotate(petalAngle);
+                ctx.beginPath();
+                ctx.ellipse(0, 0, sunflower.petalLength, 10, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+            
+            ctx.restore();
+            ctx.shadowBlur = 0;
+            
+            ctx.beginPath();
+            ctx.arc(sunflower.x, sunflower.y - 20, 30, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(76, 175, 80, 0.1)';
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = '#4CAF50';
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+
+        function drawFireworks() {
+            if (Math.random() < 0.03 && starsVisible && hasShownCard) {
+                fireworks.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height * 0.3 + 50,
+                    particles: [],
+                    color: `hsl(${Math.random() * 360}, 100%, 65%)`,
+                    life: 100
+                });
+            }
+            
+            for (let i = fireworks.length - 1; i >= 0; i--) {
+                const firework = fireworks[i];
+                
+                if (firework.particles.length === 0) {
+                    for (let j = 0; j < 15; j++) {
+                        firework.particles.push({
+                            x: firework.x, y: firework.y,
+                            vx: (Math.random() - 0.5) * 6,
+                            vy: (Math.random() - 0.5) * 6 - 1,
+                            life: Math.random() * 40 + 20,
+                            color: firework.color,
+                            size: Math.random() * 3 + 1
+                        });
+                    }
+                }
+                
+                for (let j = firework.particles.length - 1; j >= 0; j--) {
+                    const p = firework.particles[j];
+                    p.x += p.vx; p.y += p.vy;
+                    p.vy += 0.03;
+                    p.life -= 1;
+                    
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.shadowBlur = 8;
+                    ctx.shadowColor = p.color;
+                    ctx.fill();
+                    
+                    if (p.life <= 0) firework.particles.splice(j, 1);
+                }
+                
+                if (firework.particles.length === 0) fireworks.splice(i, 1);
+            }
+            ctx.shadowBlur = 0;
+        }
+
+        function drawShootingStars() {
+            if (Math.random() < 0.04 && starsVisible && hasShownCard) {
+                shootingStars.push({
+                    x: Math.random() * canvas.width * 0.3,
+                    y: Math.random() * canvas.height * 0.2,
+                    length: Math.random() * 60 + 30,
+                    speed: Math.random() * 12 + 8,
+                    angle: Math.PI / 4,
+                    life: 30,
+                    opacity: 0.7
+                });
+            }
+            
+            for (let i = shootingStars.length - 1; i >= 0; i--) {
+                const star = shootingStars[i];
+                star.x += star.speed * Math.cos(star.angle);
+                star.y += star.speed * Math.sin(star.angle);
+                star.life -= 1;
+                star.opacity -= 0.02;
+                
+                ctx.beginPath();
+                ctx.moveTo(star.x, star.y);
+                ctx.lineTo(star.x - star.length * Math.cos(star.angle), star.y - star.length * Math.sin(star.angle));
+                ctx.strokeStyle = `rgba(255, 255, 255, ${star.opacity})`;
+                ctx.lineWidth = 1.5;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = 'white';
+                ctx.stroke();
+                
+                if (star.life <= 0 || star.x > canvas.width || star.y > canvas.height) {
+                    shootingStars.splice(i, 1);
+                }
+            }
+            ctx.shadowBlur = 0;
+        }
+
+        function animateScene() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0a0c14';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            if (sunflower.scale < 1) {
+                sunflower.scale += 0.02;
+            }
+            
+            drawSunflower();
+            
+            if (starsVisible) {
+                if (hasShownCard) {
+                    drawFireworks();
+                    drawShootingStars();
+                }
+            }
+            
+            animationId = requestAnimationFrame(animateScene);
+        }
+
+        const starsCanvas = document.getElementById('stars-canvas');
+        const starsCtx = starsCanvas.getContext('2d');
+        let stars = [];
+
+        function initStars() {
+            starsCanvas.width = window.innerWidth;
+            starsCanvas.height = window.innerHeight;
+            stars = [];
+            for (let i = 0; i < 400; i++) {
+                stars.push({
+                    x: Math.random() * starsCanvas.width,
+                    y: Math.random() * starsCanvas.height - starsCanvas.height,
+                    radius: Math.random() * 2 + 0.8,
+                    brightness: Math.random() * 0.7 + 0.3,
+                    speed: Math.random() * 1.5 + 0.5
+                });
+            }
+        }
+
+        function drawStarsLoop() {
+            if (!giftPanel.classList.contains('visible') || !starsVisible) {
+                starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+                requestAnimationFrame(drawStarsLoop);
+                return;
+            }
+            
+            starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+            
+            for (let i = 0; i < stars.length; i++) {
+                const star = stars[i];
+                
+                star.y += star.speed * 0.4;
+                if (star.y > starsCanvas.height) {
+                    star.y = -10;
+                    star.x = Math.random() * starsCanvas.width;
+                }
+                
+                star.brightness += Math.sin(Date.now() * 0.001 + i) * 0.02;
+                if (star.brightness > 1) star.brightness = 0.3;
+                if (star.brightness < 0.2) star.brightness = 0.8;
+                
+                starsCtx.beginPath();
+                starsCtx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                starsCtx.fillStyle = `rgba(255, 255, 255, ${star.brightness})`;
+                starsCtx.shadowBlur = 4;
+                starsCtx.shadowColor = 'white';
+                starsCtx.fill();
+            }
+            
+            starsCtx.shadowBlur = 0;
+            requestAnimationFrame(drawStarsLoop);
+        }
+
+        openGiftBtn.addEventListener('click', function() {
+            mainContent.style.display = 'none';
+            giftPanel.classList.add('visible');
+            
+            fireworks = [];
+            shootingStars = [];
+            sunflower.scale = 0;
+            starsVisible = false;
+            hasShownCard = false;
+            messageActive = false;
+            
+            const canvas = document.getElementById('sunflowerCanvas');
+            canvas.style.display = 'block';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            initSunflower();
+            
+            const starsCanvas = document.getElementById('stars-canvas');
+            starsCanvas.style.display = 'block';
+            initStars();
+            
+            const messageEl = document.getElementById('message-text');
+            messageEl.style.display = 'none';
+            
+            const giftLid = document.getElementById('gift-lid');
+            const giftBoxContainer = document.getElementById('gift-box-container');
+            const giftTitle = document.getElementById('gift-title');
+            const letterContent = document.getElementById('letter-content');
+            
+            giftTitle.style.display = 'none';
+            letterContent.style.display = 'none';
+            
+            giftLid.style.animation = 'lidOpen 1.2s ease-out forwards';
+            
+            setTimeout(() => {
+                giftBoxContainer.style.display = 'none';
+                animateScene();
+            }, 800);
+            
+            setTimeout(() => {
+                starsVisible = true;
+                drawStarsLoop();
+            }, 2000);
+            
+            setTimeout(() => {
+                messageActive = true;
+                messageEl.style.display = 'block';
+            }, 3000);
+            
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+                messageActive = false;
+            }, 11000);
+            
+            setTimeout(() => {
+                hasShownCard = true;
+                giftTitle.style.display = 'block';
+                letterContent.style.display = 'block';
+                setTimeout(() => {
+                    giftPanel.scrollTop = 0;
+                }, 100);
+                confetti.start(10000);
+                
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => {
+                        fireworks.push({
+                            x: Math.random() * canvas.width,
+                            y: Math.random() * canvas.height * 0.3 + 50,
+                            particles: [],
+                            color: `hsl(${Math.random() * 360}, 100%, 65%)`,
+                            life: 100
+                        });
+                    }, i * 200);
+                }
+            }, 11000);
+        });
+
+        closeGift.addEventListener('click', function() {
+            giftPanel.classList.remove('visible');
+            mainContent.style.display = 'flex';
+            
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+            
+            const canvas = document.getElementById('sunflowerCanvas');
+            canvas.style.display = 'none';
+            document.getElementById('gift-lid').style.animation = '';
+            document.getElementById('gift-box-container').style.display = 'block';
+            document.getElementById('gift-title').style.display = 'none';
+            document.getElementById('letter-content').style.display = 'none';
+            document.getElementById('message-text').style.display = 'none';
+            
+            const starsCanvas = document.getElementById('stars-canvas');
+            starsCanvas.style.display = 'none';
+            starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+            
+            fireworks = [];
+            shootingStars = [];
+            starsVisible = false;
+            hasShownCard = false;
+            messageActive = false;
+            
+            giftPanel.scrollTop = 0;
+        });
+
+        window.addEventListener('resize', function() {
+            if (giftPanel.classList.contains('visible')) {
+                const canvas = document.getElementById('sunflowerCanvas');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                initSunflower();
+                
+                const starsCanvas = document.getElementById('stars-canvas');
+                starsCanvas.width = window.innerWidth;
+                starsCanvas.height = window.innerHeight;
+                initStars();
+            }
+        });
+
         function updateTimer() {
             const distance = targetDate - Date.now();
             if (distance <= 0) {
-                document.getElementById('timer').innerHTML = '¡Feliz Cumpleaños, mi amor! 🎂✨❤️';
+                document.getElementById('timer').innerHTML = '¡Feliz Cumpleaños, mi Valentina! 🎂✨❤️';
+                birthdayMessage.innerHTML = '🎉 ¡HOY ES TU DÍA, MI AMOR! 🎉';
                 return;
             }
-            const days    = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours   = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2,'0');
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2,'0');
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2,'0');
             const seconds = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2,'0');
             document.getElementById('timer').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            saveTimerState();
         }
+
+        loadTimerState();
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // Corazones
+        const hearts = []; const maxHearts = 30;
         function createHeart() {
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.innerHTML = Math.random() > 0.6 ? '❤️' : '💗';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 8 + 10) + 's';
+            if (hearts.length >= maxHearts) return;
+            const heart = document.createElement('div'); heart.className = 'heart';
+            heart.innerHTML = Math.random() > 0.5 ? '❤️' : '💗';
+            heart.style.left = Math.random() * 100 + '%'; heart.style.top = Math.random() * 100 + '%';
+            heart.style.fontSize = (Math.random() * 1.2 + 0.8) + 'em';
+            const vx = (Math.random() - 0.5) * 0.8; const vy = (Math.random() - 0.5) * 0.8;
             document.querySelector('.hearts').appendChild(heart);
-            setTimeout(() => heart.remove(), 15000);
+            hearts.push({ element: heart, vx, vy, x: parseFloat(heart.style.left), y: parseFloat(heart.style.top) });
+            setTimeout(() => { const index = hearts.findIndex(h => h.element === heart); if (index > -1) hearts.splice(index, 1); heart.remove(); }, 20000 + Math.random() * 10000);
         }
-        setInterval(createHeart, 600);
-        for (let i = 0; i < 12; i++) setTimeout(createHeart, i * 250);
+        function animateHearts() {
+            hearts.forEach(h => {
+                h.x += h.vx; h.y += h.vy;
+                if (h.x <= 0 || h.x >= 100) h.vx *= -1; if (h.y <= 0 || h.y >= 100) h.vy *= -1;
+                h.vy += 0.02; if (h.y >= 100) { h.y = 100; h.vy *= -0.7; }
+                h.element.style.left = h.x + '%'; h.element.style.top = h.y + '%';
+            });
+            requestAnimationFrame(animateHearts);
+        }
+        setInterval(() => { if (hearts.length < maxHearts) createHeart(); }, 400);
+        animateHearts();
     </script>
 </body>
 </html>
